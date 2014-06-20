@@ -17,7 +17,7 @@
 ---
 # You must specify a the repository root of an Oracle JRE repository. Please see the documentation for more detail.
 # e.g.  repository_root: "http://example.com/oracle-jre/{platform}/{architecture}"
-repository_root: "http://12.1.1.1:7777/fileserver/jdk"
+repository_root: "http://192.168.1.2/fileserver/jre-7u51-linux-x64.tar.gz"
 #repository_root: "http://s3.amazonaws.com/pcf-resources/jre"
 version: 1.7.0_+
 #memory_sizes:
