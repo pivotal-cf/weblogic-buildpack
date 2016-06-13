@@ -142,9 +142,9 @@ module JavaBuildpack
 
           # Filtered Pathname has a problem with non-existing files. So, get the path as string and add the props file
           # name for the output file
-          wls_complete_domain_configs_props = @wls_domain_yaml_config.to_s.sub('.yml', '.props')
+          @wls_complete_domain_configs_props = @wls_domain_yaml_config.to_s.sub('.yml', '.props')
 
-          system "/bin/rm  #{wls_complete_domain_configs_props} 2>/dev/null"
+          system "/bin/rm  #{@wls_complete_domain_configs_props} 2>/dev/null"
 
           # Consolidate all the user defined service definitions provided via the app,
           # along with anything else that comes via the Service Bindings via the environment (VCAP_SERVICES) during
@@ -152,13 +152,13 @@ module JavaBuildpack
           JavaBuildpack::Container::Wls::ServiceBindingsHandler.create_service_definitions_from_file_set(
             @wls_complete_domain_configs_yml,
             @config_cache_root,
-            wls_complete_domain_configs_props)
+            @wls_complete_domain_configs_props)
 
           JavaBuildpack::Container::Wls::ServiceBindingsHandler.create_service_definitions_from_bindings(
             @app_services_config,
-            wls_complete_domain_configs_props)
+            @wls_complete_domain_configs_props)
 
-          log("Done generating Domain Configuration Property file for WLST: #{wls_complete_domain_configs_props}")
+          log("Done generating Domain Configuration Property file for WLST: #{@wls_complete_domain_configs_props}")
           log('--------------------------------------')
 
           # Run wlst.sh to generate the domain as per the requested configurations
@@ -169,7 +169,7 @@ module JavaBuildpack
                      'export CLASSPATH=;'
           command << " sed -i.bak 's#JVM_ARGS=\"#JVM_ARGS=\" -Djava.security.egd=file:/dev/./urandom #g' " \
                      "#{wlst_script} 2>/dev/null; "
-          command << " #{wlst_script}  #{@wls_domain_config_script} #{wls_complete_domain_configs_props}"
+          command << " #{wlst_script}  #{@wls_domain_config_script} #{@wls_complete_domain_configs_props}"
           command << " > #{@wls_sandbox_root}/wlstDomainCreation.log"
 
           log("Executing WLST: #{command}")
